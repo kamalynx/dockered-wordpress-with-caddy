@@ -1,0 +1,7 @@
+wp.local {
+	root * /var/www/html
+	encode gzip
+	php_fastcgi wordpress:9000
+	file_server
+	tls internal
+}

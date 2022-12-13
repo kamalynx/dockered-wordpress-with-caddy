@@ -1,0 +1,36 @@
+services:
+
+    caddy:
+        image: caddy:latest
+        ports:
+            - "80:80"
+            - "443:443"
+            - "443:443/udp"
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - ./wordpress:/var/www/html
+
+    db:
+        image: mariadb
+        environment:
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+            MYSQL_RANDOM_ROOT_PASSWORD: '1'
+        volumes:
+            - ./mysql:/var/lib/mysql
+
+    wordpress:
+        image: wordpress:fpm
+        volumes:
+            - ./wordpress:/var/www/html
+        environment:
+            WORDPRESS_DB_HOST: db
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: wordpress
+            WORDPRESS_DB_NAME: wordpress
+
+
+volumes:
+    wordpress:
+    db:
